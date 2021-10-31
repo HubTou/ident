@@ -83,3 +83,4 @@ This manual page is based on the one written for [FreeBSD](https://www.freebsd.o
 ## CAVEATS
 In the original RCS ident command, option *-V* printed RCS version number.
 Our re-implementation prints its own version.
+

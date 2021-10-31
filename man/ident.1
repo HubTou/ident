@@ -1,0 +1,149 @@
+.\" Copyright (c) 2015 Baptiste Daroussin <bapt@FreeBSD.org>
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.\" $FreeBSD$
+.\"
+.Dd October 31, 2021
+.Dt IDENT 1
+.Os
+.Sh NAME
+.Nm ident
+.Nd "identify RCS keyword strings in files"
+.Sh SYNOPSIS
+.Nm
+.Op Fl q
+.Op Fl -debug
+.Op Fl -help|-?
+.Op Fl V|--version
+.Op Fl -
+.Op Ar
+.Sh DESCRIPTION
+The
+.Nm
+utility searches for all instances of the pattern
+.Sq $keyword: text $
+in
+.Ar file (s).
+.Pp
+.Em keyword
+must only be composed of alphanumeric values in the C locale, followed by
+.Sq \&:
+and a space.
+.Pp
+If no arguments are passed, then
+.Nm
+parses the standard input.
+.Pp
+The pattern normally requires a colon and a space immediately after the keyword and a space immediately before the terminating $,
+but for Subversion 1.2 (and later) compatibility,
+ident will also recognize the pattern
+.Sq $keyword:: text $
+(i.e., two colons and a space) and the pattern
+.Sq $keyword:: text #$
+(likewise, with a hash before the terminating $).
+These are the fixed-width keyword syntax.
+.Pp
+To summarize, the three recognized patterns are:
+.Bl -bullet
+.It
+$keyword: text $ 
+.It
+$keyword:: text $ 
+.It
+$keyword:: text #$
+.El
+.Ss OPTIONS
+These options are supported:
+.Bl -tag -width indent
+.It Fl q
+Quiet mode: suppress warnings if no pattern found
+.It Fl -debug
+Enable debug mode
+.Pp
+.It Fl -help|-?
+Print usage and this help message and exit
+.Pp
+.It Fl V|--version
+Print version and exit
+.Pp
+.It Fl -
+Options processing terminator
+.El
+.Sh ENVIRONMENT
+The
+.Ev IDENT_DEBUG
+environment variable can be set to any value to enable debug mode.
+.Pp
+The
+.Ev FLAVOUR
+or
+.Ev IDENT_FLAVOUR
+environment variables can be set to one of the following values,
+to implement only the corresponding options and behaviours.
+.Bl -bullet
+.It
+bsd | bsd:freebsd : FreeBSD ident(1)
+.It
+gnu | gnu:linux | linux : GNU/Linux ident(1)
+.El
+.Sh EXIT STATUS
+.Ex -std ident
+.Sh SEE ALSO
+.Xr what 1 ,
+.Xr strings 1
+.Sh STANDARDS
+The
+.Nm
+utility is not a standard UNIX command, though a usual one on Unix-like systems.
+.Pp
+This re-implementation tries to follow the PEP 8 style guide for Python code.
+.Sh PORTABILITY
+Tested OK under Windows.
+.Sh HISTORY
+The
+.Nm
+command appeared with the Revision Control System (RCS) in 1982,
+and was written by
+.An Walter F. Tichy
+at Purdue University.
+RCS is now maintained by the GNU Project.
+.Pp
+This re-implementation was made for the
+.Lk https://github.com/HubTou/PNU PNU project
+.Sh LICENSE
+It is available under the 3-clause BSD license.
+.Sh AUTHORS
+.An Hubert Tournier
+.Pp
+This manual page is based on the one written for
+.Fx
+by
+.An Baptiste Daroussin Aq Mt bapt@FreeBSD.org .
+.Sh CAVEATS
+In the original RCS
+.Nm
+command, option
+.Fl V
+printed RCS version number.
+Our re-implementation prints its own version.
